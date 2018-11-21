@@ -1,0 +1,29 @@
+<application>
+  <component name="PyTestFrameworkService">
+    <option name="SDK_TO_PYTEST">
+      <map>
+        <entry key="C:\Program Files\Python36\python.exe" value="false" />
+        <entry key="C:\Python27\python.exe" value="false" />
+        <entry key="C:\Users\kk2ro\Anaconda3\envs\tensorflow\python.exe" value="false" />
+        <entry key="C:\Users\kk2ro\Anaconda3\python.exe" value="true" />
+      </map>
+    </option>
+    <option name="SDK_TO_NOSETEST">
+      <map>
+        <entry key="C:\Program Files\Python36\python.exe" value="false" />
+        <entry key="C:\Python27\python.exe" value="true" />
+        <entry key="C:\Users\kk2ro\Anaconda3\envs\tensorflow\python.exe" value="false" />
+        <entry key="C:\Users\kk2ro\Anaconda3\python.exe" value="true" />
+      </map>
+    </option>
+    <option name="SDK_TO_TRIALTEST">
+      <map>
+        <entry key="C:\Python27\python.exe" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="StepicUpdateSettings">
+    <option name="lastTimeChecked" value="1541947951637" />
+    <option name="LAST_TIME_CHECKED" value="1541947951637" />
+  </component>
+</application>
