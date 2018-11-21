@@ -1,0 +1,225 @@
+import pygame
+
+Green = (100, 250, 100)
+pad_width = 1024
+pad_height = 512
+x1=0
+y1=0
+x2=0
+y2=0
+x3=0
+y3=0
+x4=0
+y4=0
+x5=0
+y5=0
+x6=0
+y6=0
+x7=0
+y7=0
+x8=0
+y8=0
+
+
+def airplane():
+    global x1, y1,x2, y2, x3, y3, x4, y4, x5, y5, x6, y6, x7, y7, x8,y8
+    global gamepad, image1, image2, image4, image3, image5, image6, image7, image8
+    gamepad.blit(image1, (x1, y1))
+    gamepad.blit(image2, (x2, y2))
+    gamepad.blit(image3, (x3, y3))
+    gamepad.blit(image4, (x4, y4))
+    gamepad.blit(image5, (x5, y5))
+    gamepad.blit(image6, (x6, y6))
+    gamepad.blit(image7, (x7, y7))
+    gamepad.blit(image8, (x8, y8))
+
+
+def runGame():
+    global x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, x6, y6, x7, y7, x8, y8
+    global gamepad, image1, image2, image4, image3, image5, image6, image7, image8
+    x1 = pad_width * 0.05
+    y1 = pad_height * 0.8
+    x2 = pad_width * 0.05
+    y2 = pad_height * 0.8
+    x3 = pad_width * 0.05
+    y3 = pad_height * 0.8
+    x4 = pad_width * 0.05
+    y4 = pad_height * 0.8
+    x5 = pad_width * 0.05
+    y5 = pad_height * 0.8
+    x6 = pad_width * 0.05
+    y6 = pad_height * 0.8
+    x7 = pad_width * 0.05
+    y7 = pad_height * 0.8
+    x8 = pad_width * 0.05
+    y8 = pad_height * 0.8
+    x1 = pad_width * 0.05
+    y1_change = 0
+    x1_change = 0
+    y2_change = 0
+    x2_change = 0
+    y3_change = 0
+    x3_change = 0
+    y4_change = 0
+    x4_change = 0
+    y5_change = 0
+    x5_change = 0
+    y6_change = 0
+    x6_change = 0
+    y7_change = 0
+    x7_change = 0
+    y8_change = 0
+    x8_change = 0
+    crashed = False
+    while not crashed:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                crashed = True
+            #아래 if문은 배열에 키 넣어놓고 쓰면 될 듯
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_2:
+                    y1_change = -5
+                elif event.key == pygame.K_w:
+                    y1_change = 5
+                elif event.key == pygame.K_q:
+                    x1_change = -5
+                elif event.key == pygame.K_e:
+                    x1_change = 5
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_2 or event.key == pygame.K_w:
+                    y1_change = 0
+                elif event.key == pygame.K_q or event.key == pygame.K_e:
+                    x1_change = 0
+
+
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_5:
+                    y2_change = -5
+                elif event.key == pygame.K_t:
+                    y2_change = 5
+                elif event.key == pygame.K_r:
+                    x2_change = -5
+                elif event.key == pygame.K_y:
+                    x2_change = 5
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_5 or event.key == pygame.K_t:
+                    y2_change = 0
+                elif event.key == pygame.K_r or event.key == pygame.K_y:
+                    x2_change = 0
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_8:
+                    y3_change = -5
+                elif event.key == pygame.K_i:
+                    y3_change = 5
+                elif event.key == pygame.K_u:
+                    x3_change = -5
+                elif event.key == pygame.K_o:
+                    x3_change = 5
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_8 or event.key == pygame.K_i:
+                    y3_change = 0
+                elif event.key == pygame.K_u or event.key == pygame.K_o:
+                    x3_change = 0
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    y4_change = -5
+                elif event.key == pygame.K_x:
+                    y4_change = 5
+                elif event.key == pygame.K_z:
+                    x4_change = -5
+                elif event.key == pygame.K_c:
+                    x4_change = 5
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_s or event.key == pygame.K_x:
+                    y4_change = 0
+                elif event.key == pygame.K_z or event.key == pygame.K_c:
+                    x4_change = 0
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_g:
+                    y5_change = -5
+                elif event.key == pygame.K_b:
+                    y5_change = 5
+                elif event.key == pygame.K_v:
+                    x5_change = -5
+                elif event.key == pygame.K_n:
+                    x5_change = 5
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_g or event.key == pygame.K_b:
+                    y5_change = 0
+                elif event.key == pygame.K_v or event.key == pygame.K_n:
+                    x5_change = 0
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_5:
+                    y2_change = -5
+                elif event.key == pygame.K_t:
+                    y2_change = 5
+                elif event.key == pygame.K_r:
+                    x2_change = -5
+                elif event.key == pygame.K_y:
+                    x2_change = 5
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_5 or event.key == pygame.K_t:
+                    y2_change = 0
+                elif event.key == pygame.K_r or event.key == pygame.K_y:
+                    x2_change = 0
+
+
+
+        y1 += y1_change
+        x1 += x1_change
+        y2 += y2_change
+        x2 += x2_change
+        y3 += y3_change
+        x3 += x3_change
+        y4 += y4_change
+        x4 += x4_change
+        y5 += y5_change
+        x5 += x5_change
+        y6 += y6_change
+        x6 += x6_change
+        y7 += y7_change
+        x7 += x7_change
+        y8 += y8_change
+        x8 += x8_change
+
+        gamepad.fill(Green)
+        airplane()
+        airplane()
+        pygame.display.update()
+        clock.tick(60)
+
+    pygame.quit()
+    quit()
+
+def initGame():
+    global gamepad, image1, image2, image4, image3, image5, image6, image7, image8, clock
+
+    pygame.init()
+    gamepad = pygame.display.set_mode((pad_width, pad_height))
+    pygame.display.set_caption('PyFutball')
+    image1 = pygame.image.load('image1.png')
+    image2 = pygame.image.load('image2.png')
+    image3 = pygame.image.load('image3.png')
+    image4 = pygame.image.load('image4.png')
+    image5 = pygame.image.load('image5.png')
+    image6 = pygame.image.load('image6.png')
+    image7 = pygame.image.load('image7.png')
+    image8 = pygame.image.load('image8.png')
+
+
+
+    clock = pygame.time.Clock()
+    runGame()
+
+initGame()
