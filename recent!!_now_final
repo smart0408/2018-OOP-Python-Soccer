@@ -25,7 +25,6 @@ def tackle(player_x, player_y):
             ball_y = player_y
             ball_x = player_x
             ball_move(ball_x, ball_y)
-    return
 
 def ball_move(x, y):
     global image_ball, ball_x, ball_y
@@ -139,6 +138,14 @@ def ballchecker(shoot, xchange, ychange):
             baller[i] = 1
 
 
+def time_checker(minute):
+    global gamepad
+    image_middle = pygame.image.load('mid.png')
+    gamepad.blit(image_middle, (0, 0))
+    pygame.display.update()
+    sleep(10)
+
+
 def show_dis_play():
     global x, y, ball_x, ball_y, gamepad, image, image_ball, start_time
 
@@ -147,7 +154,9 @@ def show_dis_play():
     gamepad.blit(image_ball, (ball_x, ball_y))
 
     delta_time = int(time() - start_time)
-
+    if delta_time // 60 == 1 and delta_time % 60 == 0:
+        time_checker(delta_time // 60)
+        delta_time = delta_time -9
     textfont = pygame.font.Font('freesansbold.ttf', 20)
     text = textfont.render('Time %02d : %02d     Score %d : %d' % (delta_time // 60, delta_time % 60, score[0], score[1]), True, RED)
     textpos = text.get_rect()
@@ -281,7 +290,6 @@ def runGame():
                         ball_y = 10
                     if ball_y > 502:
                         ball_y = 502
-            print('ball position=', ball_x, ball_y)
             ballchecker(shoot, ball_x_change, ball_y_change)
             if goalchcker():
                 break
