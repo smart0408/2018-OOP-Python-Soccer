@@ -50,7 +50,7 @@ def ball_direction(player_x, player_y, ball_x, ball_y):
 
 
 def ball_pass(player_x, player_y, dir, shoot_able):
-    print("shootable = ", shoot_able)
+    print('shootable = ', shoot_able)
     if shoot_able != 0:
         if dir == 'Ball Left':
             for i in range(1,50):
@@ -86,7 +86,7 @@ def ball_pass(player_x, player_y, dir, shoot_able):
                 pygame.display.update()
 
 
-def dispMessage(text,time):
+def dispMessage(text):
     global gamepad
     textfont = pygame.font.Font('freesansbold.ttf', 80)
     text = textfont.render(text, True, RED)
@@ -94,15 +94,15 @@ def dispMessage(text,time):
     textpos.center = (pad_width / 2, pad_height / 2)
     gamepad.blit(text, textpos)
     pygame.display.update()
-    sleep(time)
+    sleep(2)
 
 
 def goalchcker():
     global ball_x, ball_y, score
     if ((0 < ball_x < 75) or (949< ball_x < 1024)) and (206 < ball_y < 306):
-        print("goal")
+        print('goal')
         pygame.mixer.music.fadeout(2000)
-        dispMessage('Goal!!', 2)
+        dispMessage('Goal!!')
         if 0 < ball_x < 75:
             score[0] += 1
         else:
@@ -173,7 +173,7 @@ def runGame():
         gamepad.blit(image_map, (0, 0))
         show_dis_play()
         pygame.display.update()
-        dispMessage("%d : %d" % (score[0], score[1]), 2)
+        dispMessage('%d : %d' % (score[0], score[1]))
 
         while True:
             for event in pygame.event.get():
@@ -181,7 +181,7 @@ def runGame():
                 ballchecker(0, 0, 0)
                 for i in range(6):
                     if baller[i] == 1:
-                        print("baller now=", i)
+                        print('baller now=', i)
                         shoot_able = 1
                         shooter_x = x[i]
                         shooter_y = y[i]
@@ -230,7 +230,7 @@ def runGame():
                 shoot = 0
                 if event.type == pygame.KEYDOWN:
                     if event.key in [K_SPACE, K_3, K_6, K_9, K_d, K_h]:
-                        print("Ball Shoot")
+                        print('Ball Shoot')
                         print(i)
                         ball_pass(ball_x, ball_y, dir, shoot_able)
                         shoot = 1
@@ -262,7 +262,7 @@ def runGame():
                         ball_y = 10
                     if ball_y > 502:
                         ball_y = 502
-            print("ball position=", ball_x, ball_y)
+            print('ball position=', ball_x, ball_y)
             ballchecker(shoot, ball_x_change, ball_y_change)
             if goalchcker():
                 break
