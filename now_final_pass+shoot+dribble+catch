@@ -2,7 +2,7 @@ import pygame
 from pygame import *
 from time import sleep
 
-baller = [0, 0, 0, 0, 0, 0]
+baller = [0 for i in range(6)]
 Green = (100, 250, 100)
 pad_width = 1024
 pad_height = 512
@@ -15,11 +15,13 @@ y = [0 for i in range(6)]
 ball_x = 0
 ball_y = 0
 
+
 def ball_move(x, y):
-    global dis, image_ball, ball_x, ball_y
+    global gamepad, image_ball, ball_x, ball_y
     ball_x = x
     ball_y = y
     gamepad.blit(image_ball, (x,y))
+
 
 def ball_direction(player_x, player_y, ball_x, ball_y):
     if player_x - ball_x > 0:
@@ -44,6 +46,7 @@ def ball_direction(player_x, player_y, ball_x, ball_y):
         if player_y- ball_y < 0:
             return 'Ball RightDown'
 
+
 def ball_pass(player_x, player_y, dir, shoot_able):
     print("shootable = ", shoot_able)
     if shoot_able != 0:
@@ -51,35 +54,35 @@ def ball_pass(player_x, player_y, dir, shoot_able):
             for i in range(1,50):
                 ball_move(player_x-12*i, player_y)
                 pygame.display.update()
-        if dir == 'Ball Right':
+        elif dir == 'Ball Right':
             for i in range(1,50):
                 ball_move(player_x+12*i, player_y)
                 pygame.display.update()
-        if dir == 'Ball Up':
+        elif dir == 'Ball Up':
             for i in range(1,50):
                 ball_move(player_x, player_y-12*i)
                 pygame.display.update()
-        if dir == 'Ball Down':
+        elif dir == 'Ball Down':
             for i in range(1,50):
                 ball_move(player_x, player_y+12*i)
                 pygame.display.update()
-        if dir == 'Ball LeftUp':
+        elif dir == 'Ball LeftUp':
             for i in range(1,50):
                 ball_move(player_x-12*i, player_y-12*i)
                 pygame.display.update()
-        if dir == 'Ball RightUp':
+        elif dir == 'Ball RightUp':
             for i in range(1,50):
                 ball_move(player_x+12*i, player_y-12*i)
                 pygame.display.update()
-        if dir == 'Ball LeftDown':
+        elif dir == 'Ball LeftDown':
             for i in range(1,50):
                 ball_move(player_x-12*i, player_y+12*i)
                 pygame.display.update()
-        if dir == 'Ball RightDown':
+        elif dir == 'Ball RightDown':
             for i in range(1,50):
                 ball_move(player_x+12*i, player_y+12*i)
                 pygame.display.update()
-    return
+
 
 def dispMessage(text):
     global gamepad
@@ -92,31 +95,31 @@ def dispMessage(text):
     sleep(2)
     runGame()
 
+
 def goalchcker():
-    global ball_y, ball_x, gamepad
+    global ball_x, ball_y, gamepad
     if ((0 < ball_x < 75) or (949< ball_x < 1024)) and (206 < ball_y < 306):
         print("goal")
         dispMessage('Goal!!')
 
+
 def ballchecker(shoot, xchange, ychange):
     global x, y, ball_x, ball_y, baller
-    for i in range(0, 6):
-        baller[i]=0
     for i in range(6):
-        if (abs(ball_x - x[i]) <= 20 and abs(ball_y - y[i]) <= 20) and (shoot ==0):
+        baller[i] = 0
+    for i in range(6):
+        if (abs(ball_x - x[i]) <= 20 and abs(ball_y - y[i]) <= 20) and (shoot == 0):
             ball_x = x[i]
             ball_y = y[i]
-        elif(abs(ball_x - x[i]) <= 20 and abs(ball_y - y[i]) <= 20) and (shoot ==1):
+        elif(abs(ball_x - x[i]) <= 20 and abs(ball_y - y[i]) <= 20) and (shoot == 1):
             ball_x = x[i] + 2 * xchange
             ball_y = y[i] + 2 * ychange
         if abs(ball_x - x[i]) <= 30 and abs(ball_y - y[i]) <= 30:
-            baller[i]=1
-
+            baller[i] = 1
 
 
 def show_dis_play():
-    global x, y, ball_x, ball_y
-    global gamepad, image, image_ball, baller
+    global x, y, ball_x, ball_y, gamepad, image, image_ball, baller
 
     for i in range(6):
         gamepad.blit(image[i], (x[i], y[i]))
@@ -124,29 +127,12 @@ def show_dis_play():
 
 
 def runGame():
-    global player_x, player_y, x, y, ball_x, ball_y, gamepad, image, image_ball, ball_y, ball_x, baller
+    global x, y, ball_x, ball_y, gamepad, image, image_ball, baller
     shooter_x = 0
     shooter_y = 0
 
-
-    for i in range(6):
-        x[0] = 205
-        y[0] = 384
-
-        x[1] = 410
-        y[1] = 256
-
-        x[2] = 615
-        y[2] = 256
-
-        x[3] = 205
-        y[3] = 128
-
-        x[4] = 820
-        y[4] = 384
-
-        x[5] = 820
-        y[5] = 128
+    x = [205, 410, 615, 205, 820, 820]
+    y = [384, 256, 256, 128, 384, 128]
     ball_x = 512
     ball_y = 256
 
@@ -162,8 +148,8 @@ def runGame():
         for event in pygame.event.get():
             shoot_able = 0
             ballchecker(0, 0, 0)
-            for i in  range(0, 6):
-                if baller[i] ==1:
+            for i in range(6):
+                if baller[i] == 1:
                     print("baller now=", i)
                     shoot_able = 1
                     shooter_x = x[i]
@@ -234,7 +220,7 @@ def runGame():
             if y[i] > 502:
                 y[i] = 502
 
-        for i in range(0, 6):
+        for i in range(6):
             if baller[i] == 1:
                 ball_x += ball_x_change
                 ball_y += ball_y_change
@@ -263,11 +249,11 @@ def initGame():
 
     pygame.init()
     gamepad = pygame.display.set_mode((pad_width, pad_height))
-    image = [0 for i in range(6)]
+    image = list()
     pygame.display.set_caption('PyFootball')
 
     for i in range(6):
-        image[i] = pygame.image.load('image%d.png' % (i + 1))
+        image.append(pygame.image.load('image%d.png' % (i + 1)))
     image_ball = pygame.image.load('image_ball.png')
     image_goalsign = pygame.image.load('image_goalsign.png')
 
