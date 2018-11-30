@@ -16,7 +16,12 @@ x = [0 for i in range(6)]
 y = [0 for i in range(6)]
 ball_x = 0
 ball_y = 0
-
+midt = 5
+endt =10
+midterm = True
+endterm = True
+jreal=7
+ireal=7
 def tackle(player_x, player_y):
     global ball_x, ball_y
     if abs(ball_x - player_x) <= 40 and abs(ball_y - player_y) <= 40:
@@ -94,6 +99,55 @@ def ball_pass(player_x, player_y, dir, shoot_able):
                 ball_move(player_x + 12 * i, player_y + 12 * i)
                 pygame.display.update()
 
+def throw_in(balltaker):
+    global ball_x, ball_y, x, y
+    dispMessage('Throw in')
+    sleep(0.5)
+    if balltaker == 0 or balltaker == 1 or balltaker == 2:
+        who = random.randrange(3, 6)
+        if (ball_x < 50):
+            x[balltaker] += 70
+            ball_x = 60
+            ball_move(ball_x, ball_y)
+        if (ball_x > 974):
+            x[balltaker] -= 70
+            ball_x = 964
+            ball_move(ball_x, ball_y)
+        if (ball_y < 22.5):
+            y[balltaker] += 70
+            ball_y = 32.5
+            ball_move(ball_x, ball_y)
+        if (ball_y > 480.5):
+            y[balltaker] -= 70
+            ball_y = 470.5
+            ball_move(ball_x, ball_y)
+        x[who] = ball_x
+        y[who] = ball_y
+        
+    elif balltaker == 3 or balltaker == 4 or balltaker == 5:
+        who = random.randrange(0, 3)
+        if (ball_x < 50):
+            x[balltaker] += 70
+            ball_x = 60
+            ball_move(ball_x, ball_y)
+        if (ball_x > 974):
+            x[balltaker] -= 70
+            ball_x = 964
+            ball_move(ball_x, ball_y)
+        if (ball_y < 22.5):
+            y[balltaker] += 70
+            ball_y = 32.5
+            ball_move(ball_x, ball_y)
+        if (ball_y > 480.5):
+            y[balltaker] -= 70
+            ball_y = 470.5
+            ball_move(ball_x, ball_y)
+
+        x[who] = ball_x
+        y[who] = ball_y
+
+
+
 
 def dispMessage(text):
     global gamepad
@@ -137,34 +191,55 @@ def ballchecker(shoot, xchange, ychange):
 
 
 def time_checker():
-    global gamepad
+    global gamepad, midterm
     image_middle = pygame.image.load('mid.png')
     gamepad.blit(image_middle, (0, 0))
     pygame.display.update()
+    pygame.mixer.music.fadeout(2000)
     sleep(10)
+    midterm = False
 
+def end_checker():
+    global gamepad, endterm
+    image_end = pygame.image.load('end.png')
+    gamepad.blit(image_end, (0, 0))
+    pygame.display.update()
+    pygame.mixer.music.fadeout(2000)
+    sleep(10)
+    endterm = False
 
 def show_dis_play():
-    global x, y, ball_x, ball_y, gamepad, image, image_ball, start_time
+    global x, y, ball_x, ball_y, gamepad, image, image_ball, start_time, midt, endt
 
     for i in range(6):
         gamepad.blit(image[i], (x[i], y[i]))
     gamepad.blit(image_ball, (ball_x, ball_y))
 
     delta_time = int(time() - start_time)
-    if delta_time // 60 == 1 and delta_time % 60 == 0:
+
+    if delta_time // 60 == midt:
         time_checker()
-        delta_time -= 9
+        midt += 10
+    elif delta_time // 60 == endt:
+        end_checker()
+        endt +=5
+
     textfont = pygame.font.Font('freesansbold.ttf', 20)
     text = textfont.render('Time %02d : %02d     Score %d : %d' % (delta_time // 60, delta_time % 60, score[0], score[1]), True, RED)
     textpos = text.get_rect()
-    textpos.center = (pad_width / 2, 20)
+    textpos.center = (pad_width / 2, 16)
     gamepad.blit(text, textpos)
     pygame.display.update()
 
+def out_check():
+    global ball_y, ball_x
+    if ((ball_x <50) or (ball_x >974) or (ball_y < 22.5) or (ball_y > 480.5)):
+        return True
+    else:
+        return False
 
 def runGame():
-    global x, y, ball_x, ball_y, gamepad, baller, image_map, score, start_time
+    global x, y, ball_x, ball_y, gamepad, baller, image_map, score, start_time, midterm, endterm, ireal, jreal
 
     start_time = time()
 
@@ -180,8 +255,8 @@ def runGame():
         shooter_y = 0
         x = [410, 205, 205, 615, 820, 820]
         y = [256, 128, 384, 256, 128, 384]
-        ball_x = 512
-        ball_y = 256
+        ball_x = 498
+        ball_y = 240
         x_change = [0 for i in range(6)]
         y_change = [0 for i in range(6)]
         ball_x_change = 0
@@ -229,6 +304,7 @@ def runGame():
                                     x_change[i] = 5
                                     ball_x_change = 10
 
+
                 if event.type == pygame.KEYUP:
                     for i in range(6):
                         player = key[i]
@@ -244,9 +320,21 @@ def runGame():
 
                 shoot = 0
                 if event.type == pygame.KEYDOWN:
-                    if event.key in [K_SPACE, K_3, K_6, K_9, K_d, K_h]:
+                    key_shoot= [K_3, K_6, K_9, K_d, K_h, K_SPACE]
+                    jreal=7
+                    ireal=7
+
+                    for j in range(0, 6):
+                        if event.key == key_shoot[j]:
+                            jreal = j
+                    for i in range(0, 6):
+                        if baller[i] == 1:
+                            ireal = i
+                    print(jreal, ireal)
+                    if ireal == jreal:
                         ball_pass(ball_x, ball_y, dir, shoot_able)
                         shoot = 1
+
 
                 key_tackle = [K_1, K_4, K_7, K_a, K_f, K_LCTRL]
                 if event.type == pygame.KEYDOWN:
@@ -254,6 +342,7 @@ def runGame():
                         who = key_tackle[i]
                         if event.key == who:
                             tackle(x[i], y[i])
+
 
             for i in range(6):
                 x[i] += x_change[i]
@@ -284,6 +373,22 @@ def runGame():
             ballchecker(shoot, ball_x_change, ball_y_change)
             if goalchcker():
                 break
+            if not midterm:
+                midterm = True
+                break
+            if not endterm:
+                endterm = True
+                break
+            if out_check():
+                dribbleout = 0
+                for i in range(0, 6):
+                    if baller[i] == 1:
+                        dribbleout = 1
+                        throw_in(i)
+                if dribbleout == 0:
+                    throw_in(ireal)
+
+
             gamepad.blit(image_map, (0, 0))
             show_dis_play()
             pygame.display.update()
