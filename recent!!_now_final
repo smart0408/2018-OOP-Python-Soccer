@@ -137,10 +137,10 @@ def ballchecker(shoot, xchange, ychange):
     for i in range(6):
         baller[i] = 0
     for i in range(6):
-        if (abs(ball_x - x[i]) <= 20 and abs(ball_y - y[i]) <= 20) and (shoot == 0):
+        if (abs(ball_x - x[i]) <= 20 and abs(ball_y - y[i]) <= 20) and not shoot:
             ball_x = x[i]
             ball_y = y[i]
-        elif(abs(ball_x - x[i]) <= 20 and abs(ball_y - y[i]) <= 20) and (shoot == 1):
+        elif(abs(ball_x - x[i]) <= 20 and abs(ball_y - y[i]) <= 20) and shoot:
             ball_x = x[i] + 2 * xchange
             ball_y = y[i] + 2 * ychange
         if abs(ball_x - x[i]) <= 30 and abs(ball_y - y[i]) <= 30:
@@ -277,7 +277,7 @@ def runGame():
                                     y_change[i] = 0
                                     ball_y_change = 0
 
-                shoot = 0
+                shoot = False
                 if event.type == pygame.KEYDOWN:
                     key_shoot= [K_3, K_6, K_9, K_d, K_h, K_SPACE]
                     ireal = 7
@@ -292,7 +292,7 @@ def runGame():
 
                     if ireal == jreal:
                         ball_pass(ball_x, ball_y, dir, shoot_able)
-                        shoot = 1
+                        shoot = True
 
                 key_tackle = [K_1, K_4, K_7, K_a, K_f, K_LCTRL]
                 if event.type == pygame.KEYDOWN:
