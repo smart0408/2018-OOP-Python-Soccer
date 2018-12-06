@@ -23,6 +23,8 @@ midterm = True
 endterm = True
 ireal = 7
 jreal = 7
+sportsmanship = 0
+sportsmanship_score = 100
 
 
 def tackle(player_x, player_y):
@@ -77,8 +79,20 @@ def ball_pass(player_x, player_y, dir, shoot_able):
             pygame.display.update()
 
 
+def sportsmanship_checker():
+    global sportsmanship, sportsmanship_score
+    if sportsmanship_score <= 30:
+        dispMessage("You got F.",True)
+        initGame()
+    if sportsmanship >= 5:
+        dispMessage("BenchClearing", True)
+        sportsmanship_score-=10
+        return True
+
 def throw_in(balltaker):
-    global ball_x, ball_y, x, y, whistle_sound
+    global ball_x, ball_y, x, y, whistle_sound, sportsmanship, sportsmanship_score
+    sportsmanship_score -=5
+    sportsmanship+=1
     pygame.mixer.Sound.play(whistle_sound)
     dispMessage('Throw in', True)
     sleep(0.5)
@@ -127,10 +141,11 @@ def dispMessage(text, mode):
 
 
 def goalchcker():
-    global ball_x, ball_y, score
+    global ball_x, ball_y, score, sportsmanship_score
     if ((0 < ball_x < 50) or (949 < ball_x < 1024)) and (206 < ball_y < 306):
         pygame.mixer.music.fadeout(2000)
         dispMessage('Goal!!', True)
+        sportsmanship_score+=5
         if 0 < ball_x < 50:
             score[1] += 1
         else:
@@ -175,8 +190,9 @@ def end_checker():
     endterm = False
 
 def show_dis_play():
-    global x, y, ball_x, ball_y, gamepad, image, image_ball, start_time, midt, endt
-
+    global x, y, ball_x, ball_y, gamepad, image, image_ball, start_time, midt, endt, sportsmanship_score
+    if sportsmanship_score >=100:
+        sportsmanship_score=100
     for i in range(6):
         gamepad.blit(image[i], (x[i], y[i]))
     gamepad.blit(image_ball, (ball_x, ball_y))
@@ -191,7 +207,7 @@ def show_dis_play():
         endt +=5
 
     textfont = pygame.font.Font('freesansbold.ttf', 20)
-    text = textfont.render('Time %02d : %02d     Score %d : %d' % (delta_time // 60, delta_time % 60, score[0], score[1]), True, RED)
+    text = textfont.render('Time %02d : %02d     Score %d : %d     Sportsmanship Score: %d' % (delta_time // 60, delta_time % 60, score[0], score[1], sportsmanship_score), True, RED)
     textpos = text.get_rect()
     textpos.center = (pad_width / 2, 16)
     gamepad.blit(text, textpos)
@@ -207,8 +223,8 @@ def out_check():
 
 
 def runGame():
-    global x, y, ball_x, ball_y, gamepad, baller, image_map, score, start_time, midterm, endterm, ireal, jreal
-
+    global x, y, ball_x, ball_y, gamepad, baller, image_map, score, start_time, midterm, endterm, ireal, jreal, sportsmanship
+    shoot = False
     start_time = time()
 
     while True:
@@ -271,7 +287,8 @@ def runGame():
                                 if j is 3:
                                     x_change[i] = 5
                                     ball_x_change = 10
-
+                                if sportsmanship !=0:
+                                    sportsmanship -=1
 
                 if event.type == pygame.KEYUP:
                     for i in range(6):
@@ -289,8 +306,8 @@ def runGame():
                 shoot = False
                 if event.type == pygame.KEYDOWN:
                     key_shoot= [K_3, K_6, K_9, K_d, K_h, K_SPACE]
-                    ireal = 7
-                    jreal = 7
+                    ireal = 1
+                    jreal = 1
 
                     for i in range(6):
                         if baller[i] == 1:
@@ -340,6 +357,9 @@ def runGame():
 
             if goalchcker():
                 break
+            if sportsmanship_checker():
+                sportsmanship=0
+                break
             if not midterm:
                 midterm = True
                 break
@@ -363,6 +383,7 @@ def runGame():
 
 def intro_screen():
     image_intro = pygame.image.load('intro.png')
+
     pygame.mixer.music.load('intro.wav')
     pygame.mixer.music.play(-1)
     crashed = False
@@ -370,11 +391,13 @@ def intro_screen():
     delta_time = 1
     while not crashed:
         if time() - intro_time >= 0.8 * delta_time and delta_time % 2:
+            print('a')
             gamepad.blit(image_intro, (0, 0))
             pygame.display.update()
             delta_time += 1
         elif time() - intro_time >= 0.8 * delta_time:
-            dispMessage('Press SPACE to start!', False)
+            print('b')
+            dispMessage('[Press SPACE to start]', False)
             delta_time += 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -386,8 +409,8 @@ def intro_screen():
 
 
 def initGame():
-    global gamepad, image, image_ball, clock, image_goalsign, bgm_sound, shoot_sound, crowd_sound, start_sound, whistle_sound, image_map
-
+    global gamepad, image, image_ball, clock, image_goalsign, bgm_sound, shoot_sound, crowd_sound, start_sound, whistle_sound, image_map, sportsmanship_score
+    sportsmanship_score=100
     pygame.init()
     gamepad = pygame.display.set_mode((pad_width, pad_height))
     image = list()
