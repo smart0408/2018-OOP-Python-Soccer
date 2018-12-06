@@ -6,6 +6,7 @@ import random
 baller = [0 for i in range(6)]
 RED = (255, 0, 0)
 Green = (100, 250, 100)
+BLACK = (255, 255, 255)
 pad_width = 1024
 pad_height = 512
 player_x = 0
@@ -79,7 +80,7 @@ def ball_pass(player_x, player_y, dir, shoot_able):
 def throw_in(balltaker):
     global ball_x, ball_y, x, y, whistle_sound
     pygame.mixer.Sound.play(whistle_sound)
-    dispMessage('Throw in')
+    dispMessage('Throw in', True)
     sleep(0.5)
     if 0 <= balltaker <= 2:
         who = random.randrange(3, 6)
@@ -106,22 +107,30 @@ def throw_in(balltaker):
     y[who] = ball_y
 
 
-def dispMessage(text):
+def dispMessage(text, mode):
     global gamepad
-    textfont = pygame.font.Font('freesansbold.ttf', 80)
-    text = textfont.render(text, True, RED)
-    textpos = text.get_rect()
-    textpos.center = (pad_width / 2, pad_height / 2)
+    if mode:
+        length = 2
+        textfont = pygame.font.Font('freesansbold.ttf', 80)
+        text = textfont.render(text, True, RED)
+        textpos = text.get_rect()
+        textpos.center = (pad_width / 2, pad_height / 2)
+    else:
+        length = 0.8
+        textfont = pygame.font.Font('freesansbold.ttf', 50)
+        text = textfont.render(text, True, BLACK)
+        textpos = text.get_rect()
+        textpos.center = (pad_width / 2, pad_height / 2 + 100)
     gamepad.blit(text, textpos)
     pygame.display.update()
-    sleep(2)
+    sleep(length)
 
 
 def goalchcker():
     global ball_x, ball_y, score
     if ((0 < ball_x < 50) or (949 < ball_x < 1024)) and (206 < ball_y < 306):
         pygame.mixer.music.fadeout(2000)
-        dispMessage('Goal!!')
+        dispMessage('Goal!!', True)
         if 0 < ball_x < 50:
             score[1] += 1
         else:
@@ -224,7 +233,7 @@ def runGame():
         gamepad.blit(image_map, (0, 0))
         show_dis_play()
         pygame.display.update()
-        dispMessage('%d : %d' % (score[0], score[1]))
+        dispMessage('%d : %d' % (score[0], score[1]), True)
 
         while True:
             for event in pygame.event.get():
@@ -354,12 +363,21 @@ def runGame():
 
 def intro_screen():
     image_intro = pygame.image.load('intro.png')
-    gamepad.blit(image_intro, (0, 0))
-    pygame.display.update()
     pygame.mixer.music.load('intro.wav')
     pygame.mixer.music.play(-1)
     crashed = False
+    intro_time = time()
+    delta_time = 1
     while not crashed:
+        if time() - intro_time >= 0.8 * delta_time and delta_time % 2:
+            print('a')
+            gamepad.blit(image_intro, (0, 0))
+            pygame.display.update()
+            delta_time += 1
+        elif time() - intro_time >= 0.8 * delta_time:
+            print('b')
+            dispMessage('Press SPACE to start!', False)
+            delta_time += 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 crashed = True
