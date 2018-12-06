@@ -370,12 +370,10 @@ def intro_screen():
     delta_time = 1
     while not crashed:
         if time() - intro_time >= 0.8 * delta_time and delta_time % 2:
-            print('a')
             gamepad.blit(image_intro, (0, 0))
             pygame.display.update()
             delta_time += 1
         elif time() - intro_time >= 0.8 * delta_time:
-            print('b')
             dispMessage('Press SPACE to start!', False)
             delta_time += 1
         for event in pygame.event.get():
