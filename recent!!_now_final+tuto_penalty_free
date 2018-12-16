@@ -232,13 +232,14 @@ def ballchecker(shoot, xchange, ychange):
 
 
 def time_checker():
-    global gamepad, midterm
+    global gamepad, midterm, start_time
     image_sports = pygame.image.load('sportsmanship.png')
     gamepad.blit(image_sports, (0, 0))
     pygame.display.update()
     pygame.mixer.music.fadeout(2000)
     sleep(10)
     midterm = False
+    start_time += 10
 
 def end_checker():
     global gamepad, endterm
