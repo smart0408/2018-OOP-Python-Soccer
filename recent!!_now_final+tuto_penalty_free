@@ -248,6 +248,7 @@ def end_checker():
     pygame.mixer.music.fadeout(2000)
     sleep(10)
     endterm = False
+    exit()
 
 def show_dis_play():
     global x, y, ball_x, ball_y, gamepad, image, image_ball, start_time, midt, endt, sportsmanship_score
